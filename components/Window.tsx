@@ -104,7 +104,11 @@ export default function Window({
       >
         {/* Icon + title */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0 }}>
-          <span style={{ fontSize: 14 }}>{icon}</span>
+          {icon.startsWith("/") ? (
+            <img src={icon} alt="" style={{ width: 16, height: 16, objectFit: "contain", flexShrink: 0 }} />
+          ) : (
+            <span style={{ fontSize: 14 }}>{icon}</span>
+          )}
           <span
             style={{
               color: "white",

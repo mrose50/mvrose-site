@@ -26,7 +26,7 @@ const defaultWindows: WindowState[] = [
   {
     id: "about",
     title: "About Mike",
-    icon: "👤",
+    icon: "/icons/about.png",
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -36,7 +36,7 @@ const defaultWindows: WindowState[] = [
   {
     id: "experience",
     title: "Work Experience",
-    icon: "💼",
+    icon: "/icons/experience.png",
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -46,7 +46,7 @@ const defaultWindows: WindowState[] = [
   {
     id: "blog",
     title: "Blog Posts",
-    icon: "📝",
+    icon: "/icons/blog.png",
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -56,7 +56,7 @@ const defaultWindows: WindowState[] = [
   {
     id: "contact",
     title: "Contact",
-    icon: "📧",
+    icon: "/icons/contact.png",
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -66,10 +66,10 @@ const defaultWindows: WindowState[] = [
 ];
 
 const desktopIcons: { id: WindowId; label: string; icon: string }[] = [
-  { id: "about", label: "About Mike", icon: "👤" },
-  { id: "experience", label: "Work Experience", icon: "💼" },
-  { id: "blog", label: "Blog", icon: "📝" },
-  { id: "contact", label: "Contact", icon: "📧" },
+  { id: "about", label: "About Mike", icon: "/icons/about.png" },
+  { id: "experience", label: "Work Experience", icon: "/icons/experience.png" },
+  { id: "blog", label: "Blog", icon: "/icons/blog.png" },
+  { id: "contact", label: "Contact", icon: "/icons/contact.png" },
 ];
 
 interface DesktopProps {

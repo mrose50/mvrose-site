@@ -31,7 +31,11 @@ export default function DesktopIcon({ label, icon, onDoubleClick }: DesktopIconP
         border: selected ? "1px dotted rgba(255,255,255,0.8)" : "1px solid transparent",
       }}
     >
-      <span style={{ fontSize: 32, lineHeight: 1 }}>{icon}</span>
+      {icon.startsWith("/") ? (
+        <img src={icon} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
+      ) : (
+        <span style={{ fontSize: 32, lineHeight: 1 }}>{icon}</span>
+      )}
       <span
         style={{
           color: "white",

@@ -111,7 +111,11 @@ export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
                 : "inset 0 1px 0 rgba(255,255,255,0.2)",
             }}
           >
-            <span style={{ fontSize: 12 }}>{win.icon}</span>
+            {win.icon.startsWith("/") ? (
+              <img src={win.icon} alt="" style={{ width: 16, height: 16, objectFit: "contain", flexShrink: 0 }} />
+            ) : (
+              <span style={{ fontSize: 12 }}>{win.icon}</span>
+            )}
             <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{win.title}</span>
           </button>
         ))}
