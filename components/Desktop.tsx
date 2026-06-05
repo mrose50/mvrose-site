@@ -8,8 +8,9 @@ import AboutWindow from "./windows/AboutWindow";
 import ExperienceWindow from "./windows/ExperienceWindow";
 import BlogWindow, { PostMeta } from "./windows/BlogWindow";
 import ContactWindow from "./windows/ContactWindow";
+import RecycleBinWindow from "./windows/RecycleBinWindow";
 
-export type WindowId = "about" | "experience" | "blog" | "contact";
+export type WindowId = "about" | "experience" | "blog" | "contact" | "recycle";
 
 export interface WindowState {
   id: WindowId;
@@ -63,6 +64,16 @@ const defaultWindows: WindowState[] = [
     position: { x: 300, y: 140 },
     size: { width: 360, height: 280 },
   },
+  {
+    id: "recycle",
+    title: "Recycle Bin",
+    icon: "🗑️",
+    isOpen: false,
+    isMinimized: false,
+    isFocused: false,
+    position: { x: 400, y: 120 },
+    size: { width: 420, height: 300 },
+  },
 ];
 
 const desktopIcons: { id: WindowId; label: string; icon: string }[] = [
@@ -70,6 +81,7 @@ const desktopIcons: { id: WindowId; label: string; icon: string }[] = [
   { id: "experience", label: "Work Experience", icon: "/icons/experience.png" },
   { id: "blog", label: "Blog", icon: "/icons/blog.png" },
   { id: "contact", label: "Contact", icon: "/icons/contact.png" },
+  { id: "recycle", label: "Recycle Bin", icon: "🗑️" },
 ];
 
 interface DesktopProps {
@@ -132,6 +144,7 @@ export default function Desktop({ posts }: DesktopProps) {
     experience: <ExperienceWindow />,
     blog: <BlogWindow posts={posts} />,
     contact: <ContactWindow />,
+    recycle: <RecycleBinWindow />,
   };
 
   return (
