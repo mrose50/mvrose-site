@@ -137,93 +137,12 @@ export default function Desktop({ posts }: DesktopProps) {
   return (
     <div
       className="relative w-full h-full overflow-hidden"
-      style={{ background: "#4a90d9" }}
+      style={{
+        backgroundImage: "url('/wallpaper.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      {/* XP Bliss-style wallpaper */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="xMidYMid slice"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1a6abf" />
-            <stop offset="40%" stopColor="#4a9de0" />
-            <stop offset="75%" stopColor="#7bbfe8" />
-            <stop offset="100%" stopColor="#a8d4f0" />
-          </linearGradient>
-          <linearGradient id="hill1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#5ab52e" />
-            <stop offset="60%" stopColor="#3d8c1a" />
-            <stop offset="100%" stopColor="#2d6e10" />
-          </linearGradient>
-          <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6dc93a" />
-            <stop offset="100%" stopColor="#4aaa20" />
-          </linearGradient>
-          <linearGradient id="hill3" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#4ea822" />
-            <stop offset="100%" stopColor="#357a12" />
-          </linearGradient>
-          <radialGradient id="sun" cx="68%" cy="28%" r="18%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.55)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-          </radialGradient>
-          {/* Cloud filter for softness */}
-          <filter id="blur2">
-            <feGaussianBlur stdDeviation="2" />
-          </filter>
-        </defs>
-
-        {/* Sky */}
-        <rect width="1440" height="900" fill="url(#sky)" />
-
-        {/* Sun glow */}
-        <ellipse cx="980" cy="250" rx="260" ry="220" fill="url(#sun)" />
-
-        {/* Clouds */}
-        <g opacity="0.9" filter="url(#blur2)">
-          <ellipse cx="980" cy="180" rx="120" ry="38" fill="white" opacity="0.85" />
-          <ellipse cx="1050" cy="165" rx="80" ry="30" fill="white" opacity="0.9" />
-          <ellipse cx="910" cy="190" rx="70" ry="25" fill="white" opacity="0.8" />
-
-          <ellipse cx="300" cy="140" rx="90" ry="28" fill="white" opacity="0.7" />
-          <ellipse cx="360" cy="128" rx="60" ry="22" fill="white" opacity="0.75" />
-          <ellipse cx="240" cy="148" rx="55" ry="20" fill="white" opacity="0.65" />
-
-          <ellipse cx="620" cy="220" rx="70" ry="22" fill="white" opacity="0.6" />
-          <ellipse cx="680" cy="210" rx="50" ry="18" fill="white" opacity="0.65" />
-
-          <ellipse cx="1280" cy="160" rx="80" ry="25" fill="white" opacity="0.55" />
-          <ellipse cx="1340" cy="148" rx="55" ry="20" fill="white" opacity="0.6" />
-        </g>
-
-        {/* Background distant hills */}
-        <path
-          d="M0 620 Q180 480 360 550 Q540 480 720 520 Q900 460 1080 510 Q1260 470 1440 530 L1440 900 L0 900 Z"
-          fill="#4a9e28"
-          opacity="0.5"
-        />
-
-        {/* Main rolling hill — the Bliss centerpiece */}
-        <path
-          d="M0 720 Q120 560 280 600 Q420 560 560 610 Q680 560 800 580 Q950 520 1100 590 Q1260 540 1440 610 L1440 900 L0 900 Z"
-          fill="url(#hill1)"
-        />
-
-        {/* Foreground hill layer for depth */}
-        <path
-          d="M0 820 Q200 700 400 740 Q580 700 720 730 Q900 695 1100 740 Q1280 710 1440 750 L1440 900 L0 900 Z"
-          fill="url(#hill2)"
-        />
-
-        {/* Bottom ground */}
-        <path
-          d="M0 870 Q360 840 720 860 Q1080 840 1440 865 L1440 900 L0 900 Z"
-          fill="url(#hill3)"
-        />
-      </svg>
 
       {/* Desktop icons */}
       <div className="absolute top-4 left-4 flex flex-col gap-4">
