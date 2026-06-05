@@ -64,7 +64,7 @@ export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
           flexShrink: 0,
         }}
       >
-        <span style={{ fontSize: 16 }}>⊞</span>
+        <img src="/icons/start.png" alt="" style={{ width: 20, height: 20, objectFit: "contain" }} />
         <span style={{ fontStyle: "italic", letterSpacing: 0.5 }}>start</span>
       </button>
 
