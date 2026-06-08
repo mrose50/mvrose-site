@@ -10,9 +10,11 @@ interface WindowProps {
   isFocused: boolean;
   zIndex: number;
   isMobile?: boolean;
+  isMaximized?: boolean;
   onFocus: () => void;
   onClose: () => void;
   onMinimize: () => void;
+  onMaximize: () => void;
   onMove: (pos: { x: number; y: number }) => void;
   onResize: (size: { width: number; height: number }) => void;
   children: React.ReactNode;
@@ -29,9 +31,11 @@ export default function Window({
   isFocused,
   zIndex,
   isMobile,
+  isMaximized,
   onFocus,
   onClose,
   onMinimize,
+  onMaximize,
   onMove,
   onResize,
   children,
@@ -46,7 +50,7 @@ export default function Window({
 
   const onMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      if (isMobile) return;
+      if (isMobile || isMaximized) return;
       onFocus();
       dragging.current = true;
       dragOffset.current = {
@@ -73,7 +77,7 @@ export default function Window({
       window.addEventListener("mousemove", onMouseMove);
       window.addEventListener("mouseup", onMouseUp);
     },
-    [onFocus, onMove, isMobile]
+    [onFocus, onMove, isMobile, isMaximized]
   );
 
   const onTouchStart = useCallback(
@@ -160,6 +164,20 @@ export default function Window({
         overflow: "hidden",
         userSelect: "none",
       }
+    : isMaximized
+    ? {
+        position: "absolute",
+        left: 0,
+        top: 0,
+        width: "100%",
+        height: "calc(100% - 40px)",
+        zIndex,
+        borderRadius: 0,
+        overflow: "hidden",
+        border: "none",
+        boxShadow: "none",
+        userSelect: "none",
+      }
     : {
         position: "absolute",
         left: position.x,
@@ -184,6 +202,7 @@ export default function Window({
       <div
         onMouseDown={onMouseDown}
         onTouchStart={onTouchStart}
+        onDoubleClick={isMobile ? undefined : onMaximize}
         style={{
           background: isFocused
             ? "linear-gradient(180deg, #4b9cf5 0%, #1660c8 8%, #0058ee 40%, #3a93ff 100%)"
@@ -193,7 +212,7 @@ export default function Window({
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 6px",
-          cursor: isMobile ? "default" : "move",
+          cursor: isMobile || isMaximized ? "default" : "move",
         }}
       >
         {/* Icon + title */}
@@ -221,12 +240,20 @@ export default function Window({
         {/* Window controls */}
         <div style={{ display: "flex", gap: isMobile ? 6 : 2, flexShrink: 0 }}>
           {!isMobile && (
-            <TitleBarBtn
-              onClick={(e) => { e.stopPropagation(); onMinimize(); }}
-              color="#f5c400"
-              symbol="─"
-              size={21}
-            />
+            <>
+              <TitleBarBtn
+                onClick={(e) => { e.stopPropagation(); onMinimize(); }}
+                color="#f5c400"
+                symbol="─"
+                size={21}
+              />
+              <TitleBarBtn
+                onClick={(e) => { e.stopPropagation(); onMaximize(); }}
+                color="#2ca827"
+                symbol={isMaximized ? "❐" : "□"}
+                size={21}
+              />
+            </>
           )}
           <TitleBarBtn
             onClick={(e) => { e.stopPropagation(); onClose(); }}
@@ -249,8 +276,8 @@ export default function Window({
         {children}
       </div>
 
-      {/* Resize handles — desktop only */}
-      {!isMobile && (
+      {/* Resize handles — desktop only, not when maximized */}
+      {!isMobile && !isMaximized && (
         <>
           {/* Right edge */}
           <div

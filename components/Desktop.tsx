@@ -19,9 +19,11 @@ export interface WindowState {
   isOpen: boolean;
   isMinimized: boolean;
   isFocused: boolean;
+  isMaximized: boolean;
   zIndex: number;
   position: { x: number; y: number };
   size: { width: number; height: number };
+  preMaximize?: { position: { x: number; y: number }; size: { width: number; height: number } };
 }
 
 const defaultWindows: WindowState[] = [
@@ -32,6 +34,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    isMaximized: false,
     zIndex: 0,
     position: { x: 80, y: 60 },
     size: { width: 480, height: 340 },
@@ -43,6 +46,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    isMaximized: false,
     zIndex: 0,
     position: { x: 140, y: 100 },
     size: { width: 520, height: 420 },
@@ -54,6 +58,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    isMaximized: false,
     zIndex: 0,
     position: { x: 200, y: 80 },
     size: { width: 500, height: 460 },
@@ -65,6 +70,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    isMaximized: false,
     zIndex: 0,
     position: { x: 300, y: 140 },
     size: { width: 360, height: 280 },
@@ -76,6 +82,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    isMaximized: false,
     zIndex: 0,
     position: { x: 400, y: 120 },
     size: { width: 420, height: 300 },
@@ -207,6 +214,28 @@ export default function Desktop({ posts }: DesktopProps) {
     []
   );
 
+  const toggleMaximize = useCallback((id: WindowId) => {
+    setWindows((prev) =>
+      prev.map((w) => {
+        if (w.id !== id) return w;
+        if (w.isMaximized) {
+          return {
+            ...w,
+            isMaximized: false,
+            position: w.preMaximize?.position ?? w.position,
+            size: w.preMaximize?.size ?? w.size,
+            preMaximize: undefined,
+          };
+        }
+        return {
+          ...w,
+          isMaximized: true,
+          preMaximize: { position: w.position, size: w.size },
+        };
+      })
+    );
+  }, []);
+
   const windowContent: Record<WindowId, React.ReactNode> = {
     about: <AboutWindow />,
     experience: <ExperienceWindow />,
@@ -263,8 +292,10 @@ export default function Desktop({ posts }: DesktopProps) {
             onFocus={() => focusWindow(win.id)}
             onClose={() => closeWindow(win.id)}
             onMinimize={() => minimizeWindow(win.id)}
+            isMaximized={win.isMaximized}
             onMove={(pos) => updatePosition(win.id, pos)}
             onResize={(size) => updateSize(win.id, size)}
+            onMaximize={() => toggleMaximize(win.id)}
           >
             {windowContent[win.id]}
           </Window>
