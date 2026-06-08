@@ -9,6 +9,7 @@ import ExperienceWindow from "./windows/ExperienceWindow";
 import BlogWindow, { PostMeta } from "./windows/BlogWindow";
 import ContactWindow from "./windows/ContactWindow";
 import RecycleBinWindow from "./windows/RecycleBinWindow";
+import BootScreen from "./BootScreen";
 
 export type WindowId = "about" | "experience" | "blog" | "contact" | "recycle";
 
@@ -106,6 +107,15 @@ export default function Desktop({ posts }: DesktopProps) {
   const [zCounter, setZCounter] = useState(10);
   const [isMobile, setIsMobile] = useState(false);
   const [openPostSlug, setOpenPostSlug] = useState<string | null>(null);
+  const [booting, setBooting] = useState(true);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("booted")) {
+      setBooting(false);
+    } else {
+      sessionStorage.setItem("booted", "1");
+    }
+  }, []);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -318,6 +328,9 @@ export default function Desktop({ posts }: DesktopProps) {
           }
         }}
       />
+
+      {/* Boot screen — shown once per session */}
+      {booting && <BootScreen onComplete={() => setBooting(false)} />}
     </div>
   );
 }
