@@ -1,44 +1,38 @@
 ---
 title: "Google Drive Phishing Attacks"
-date: "2025-03-01"
+date: "2025-04-01"
 year: "2025"
-description: "How attackers abuse Google Drive for phishing campaigns."
+description: "How attackers abuse Google Drive for phishing campaigns and what to look out for."
 ---
 
-## Overview
+I have observed a notable increase in phishing emails leveraging Google Drive within my organization. To help prevent anyone from falling victim to these attacks, I would like to share my insights and knowledge on this matter.
 
-I've been observing an increase in phishing emails leveraging Google Drive within my organization. Here's what's happening and how to recognize it.
+## What is happening?
 
-## What is Happening?
+When you share a Google Drive file with a collaborator, they will receive an email notification informing them that a file has been shared with them.
 
-When files are shared through Google Drive, recipients receive email notifications. Threat actors exploit this legitimate feature by sharing documents containing malicious links that direct victims to credential-harvesting websites or payment fraud pages. These messages often include urgent language to encourage engagement.
+Malicious individuals are exploiting this by sharing documents that lead unsuspecting victims to phishing websites. These deceptive sites are specifically designed to harvest credentials or redirect funds.
 
-## How Does It Work?
+Additionally, these Google Drive share links frequently feature urgent subject lines designed to instill a sense of urgency, thereby enticing recipients to engage with the email.
 
-Attackers register custom domains configured with Google Workspace to create multiple accounts. They upload Drive files with embedded phishing links and share them with targets, typically using time-sensitive messaging. The documents appear legitimate but contain links designed to steal credentials or facilitate unauthorized financial transfers.
+## How does it work?
 
-## Example Attack
+The attacker registers a custom domain and sets it up with Google Workspace, enabling the creation of multiple accounts. They upload Drive files that contain embedded phishing links and share these documents with the victim, typically accompanied by urgent messages. These documents are often disguised as legitimate files, featuring links to phishing sites designed to capture credentials or facilitate unauthorized fund transfers.
 
-A real phishing email in the wild:
+## Example
 
-- The "from" address shows Google Drive as the service provider (legitimate-looking)
-- Opening the file displays a suspicious blurred preview
-- A deceptive "Download E-Sign" button redirects to a fake login page
-- The redirect URL appears suspicious upon inspection
+The attacker is using the legitimate Google Drive service, so the "from" email will be the service email (via Google Drive).
 
-## Red Flags to Recognize
+If you select Open in the email it will show you a preview of the file that already looks suspicious.
 
-🚩 Unexpected Google Drive share notifications from unknown contacts
+If you hover over the Download E-Sign button it shows a suspicious looking redirect URL. In this case, it was a fake login page that aimed to capture user credentials.
 
-🚩 Suspicious documents (blurred, containing "Click here to view") linking elsewhere
+## What to look out for?
 
-🚩 Shared files using urgent or threatening language
+🚩 Receiving a Google Drive share notification from someone unfamiliar or unexpected.
 
-🚩 Login prompts that appear off-brand or visually unusual
+🚩 Fake Documents (often blurred or saying "Click here to view document") and links out to an external site.
 
-## What To Do
+🚩 Shared documents that include urgent or threatening language.
 
-- Don't click links in unexpected Drive share notifications
-- Go directly to drive.google.com rather than clicking email links
-- Report suspicious shares using the "Report abuse" option in Google Drive
-- Enable Google Workspace phishing protections if you're an admin
+🚩 A document that prompts a Google login page that looks off-brand or suspicious.

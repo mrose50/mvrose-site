@@ -1,66 +1,112 @@
 ---
 title: "What's in My 2025 EDC Backpack"
-date: "2025-04-01"
+date: "2025-06-01"
 year: "2025"
-description: "Everything I carry daily in my everyday carry backpack."
+description: "Everything I carry daily in my EDC backpack."
 ---
 
-## The Backpack
+Though I work from home, I still nerd out over everyday carry (EDC) gear. Here's what I currently carry in my EDC backpack.
 
-**GoRuck GR2 — Ballistic Nylon Cordura (34L/Black)**
+## The Backpack Itself
 
-Upgraded from the GR1 to gain additional storage capacity. While I don't use it for rucking, the construction and compartmentalization are excellent.
+**GoRuck GR2 - Ballistic Nylon Cordura (34L/Black)**
 
-Custom modifications:
-- Paracord handle wrap for improved grip comfort
-- GoRuck training sternum strap for shoulder stability
-- External water bottle pocket via MOLLE webbing
-- Internal accessory bag with buckle clips
-- AirTag mount on the accessory bag
+I initially bought the GoRuck GR1 but upgraded to the GR2 for more gear space. I don't use it for rucking, but its quality and organization suit my needs perfectly.
 
-## What's Inside
+I performed some light modifications to the stock backpack:
+
+- **Paracord Handle Wrap** → more comfortable grip when carrying the bag.
+- **GoRuck Training Sternum Strap** → keeps the bag securely on my shoulders.
+- **GoRuck Full Panel Water Bottle Pocket** → one downfall of the GoRuck bag is that it doesn't have a dedicated water bottle pocket. However, the external MOLLE webbing made it easy to attach this accessory.
+- **Accessory bag mounted to the internal MOLLE using buckle clips** → dedicated organization in the bag itself.
+- **Airtag mount attached to the accessory bag** → ensured the Airtag would never go missing.
+
+## Favorite EDC Items
 
 ### Technology
 
-- MacBook Pro 16" (M3, 2023)
-- iPad Pro 12.9"
-- iPhone 17 Pro Max
-- Apple Watch Ultra 3
-- AirPods Pro + AirPods Max
-- Nintendo Switch 2
-- Multiple Anker and Apple chargers + battery packs
-- USB-C cables
-- Oakley smart glasses
+💻 MacBook Pro (16", 2023, M3 series)
+
+📱 iPad Pro 12.9-inch (3rd generation) with Smart Keyboard Folio & Apple Pencil
+
+📞 iPhone 17 Pro Max with dBrand Grip case
+
+⌚ Apple Watch Ultra 3
+
+🎧 Apple Airpods Pro & Airpods Max
+
+🏷️ Apple Airtags for Wallet & Backpack
+
+🔌 Apple 140W USB-C Power Adapter & Anker Prime Charging Station
+
+🔋 Anker Magsafe Power Bank & Anker 25,000mAh Laptop Power Bank
+
+⚡ Anker USB-C Cables
+
+🎮 Nintendo Switch 2 with dBrand Killswitch case
+
+🕶️ Oakley Meta Vanguard
 
 ### Stationery
 
-- Plotter A5 leather notebook
-- Plotter pen case
-- rOtring mechanical pencil
-- Uni ballpoint pen
+📔 Plotter A5 Leather Notebook
+
+✏︎ Plotter Long Zipper Pen Case
+
+✏️ rOtring 600 Mechanical Pencil
+
+🖊️ Uni Jetstream Edge Ballpoint Pen
 
 ### Organization
 
-Pouches and organizers from Alchemy Goods, Topo Designs, GoRuck, and Elevation Lab. AirTag wallet and key organizer.
+🎒 Alchemy Goods Large Zipper Pouch w/Liner - Bike Tube
+
+👝 Topo Designs Accessory Pouch
+
+🔒 Elevation Lab AirTag Strap Mount
+
+👜 GoRuck GR1 Field Pocket
+
+👛 Vionentus Supreme Smart VN400 AirTag Wallet
+
+🔑 Orbitkey Key Organizer
 
 ### Tools
 
-- First-aid kit
-- Streamlight flashlight
-- Zippo lighter
-- Leatherman Wave+
-- Spyderco pocket knife
+🚑 Pocket First Aid Kit
+
+🔦 Streamlight 66318 MicroStream Flashlight
+
+🔥 Zippo Lighter
+
+🛠️ LEATHERMAN, Wave+
+
+🗡️ Spyderco Para Military 2 Pocket Knife
 
 ### Miscellaneous
 
-- Osprey raincover
-- REI towel
-- Screen cleaner
-- Hand sanitizer
-- Insulated water bottle
+☂️ Osprey Ultralight Raincover Medium
+
+🧻 REI Co-op Multi Towel Mini
+
+🧽 Native Union Clean Screen Spray
+
+🛁 Noshinku Hand Sanitizer Spray
+
+🍾 LARQ Bottle PureVis 25 oz
 
 ## Rotating / Situational Gear
 
-**Pickleball:** Selkirk paddle and protective eyewear
+I'll swap a few things in or out if I am playing pickleball or riding my Onewheel.
 
-**OneWheel:** Wrist guards and Giro MIPS helmet
+### Pickleball
+
+🏓 Selkirk Labs Project Boomstik Elongated Pickleball Paddle
+
+👓 Kitchen Blockers Pickleball Protective Eyewear
+
+### OneWheel
+
+🦺 F(x)nction Shredder Wrist Guards
+
+🪖 Giro Fixture II MIPS Mountain Bike Helmet (Saved my life once!)
