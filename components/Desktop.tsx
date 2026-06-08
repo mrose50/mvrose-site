@@ -108,6 +108,7 @@ export default function Desktop({ posts }: DesktopProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [openPostSlug, setOpenPostSlug] = useState<string | null>(null);
   const [booting, setBooting] = useState(true);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (sessionStorage.getItem("booted")) {
@@ -262,6 +263,11 @@ export default function Desktop({ posts }: DesktopProps) {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        setContextMenu({ x: e.clientX, y: e.clientY });
+      }}
+      onClick={() => setContextMenu(null)}
     >
 
       {/* Desktop icons */}
@@ -329,8 +335,109 @@ export default function Desktop({ posts }: DesktopProps) {
         }}
       />
 
+      {/* Right-click context menu */}
+      {contextMenu && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={() => setContextMenu(null)}
+          onRefresh={() => window.location.reload()}
+          onProperties={() => openWindow("about")}
+        />
+      )}
+
       {/* Boot screen — shown once per session */}
       {booting && <BootScreen onComplete={() => setBooting(false)} />}
+    </div>
+  );
+}
+
+function ContextMenu({
+  x, y, onClose, onRefresh, onProperties,
+}: {
+  x: number; y: number;
+  onClose: () => void;
+  onRefresh: () => void;
+  onProperties: () => void;
+}) {
+  // Keep menu on screen
+  const menuWidth = 200;
+  const menuHeight = 148;
+  const left = x + menuWidth > window.innerWidth ? x - menuWidth : x;
+  const top = y + menuHeight > window.innerHeight ? y - menuHeight : y;
+
+  const itemStyle: React.CSSProperties = {
+    padding: "4px 20px 4px 28px",
+    fontSize: 12,
+    fontFamily: "Tahoma, sans-serif",
+    color: "#000",
+    cursor: "default",
+    whiteSpace: "nowrap",
+    userSelect: "none",
+  };
+
+  const handleItem = (fn: () => void) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    fn();
+    onClose();
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        left,
+        top,
+        width: menuWidth,
+        background: "#f0efe6",
+        border: "1px solid #8a8070",
+        boxShadow: "2px 2px 6px rgba(0,0,0,0.35)",
+        zIndex: 99998,
+        padding: "2px 0",
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <MenuItem style={itemStyle} onClick={handleItem(() => {})}>
+        <span style={{ color: "#888" }}>Arrange Icons By</span>
+        <span style={{ marginLeft: "auto", color: "#888" }}>▶</span>
+      </MenuItem>
+      <MenuItem style={itemStyle} onClick={handleItem(onRefresh)}>
+        Refresh
+      </MenuItem>
+      <div style={{ height: 1, background: "#c0bdb0", margin: "2px 0" }} />
+      <MenuItem style={itemStyle} onClick={handleItem(() => {})}>
+        <span style={{ color: "#888" }}>Paste</span>
+      </MenuItem>
+      <div style={{ height: 1, background: "#c0bdb0", margin: "2px 0" }} />
+      <MenuItem style={itemStyle} onClick={handleItem(onProperties)}>
+        <strong>Properties</strong>
+      </MenuItem>
+    </div>
+  );
+}
+
+function MenuItem({
+  children, style, onClick,
+}: {
+  children: React.ReactNode;
+  style: React.CSSProperties;
+  onClick: (e: React.MouseEvent) => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        ...style,
+        background: hovered ? "#0058ee" : "transparent",
+        color: hovered ? "white" : style.color,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {children}
     </div>
   );
 }
