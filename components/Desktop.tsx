@@ -98,6 +98,7 @@ export default function Desktop({ posts }: DesktopProps) {
   const [windows, setWindows] = useState<WindowState[]>(defaultWindows);
   const [zCounter, setZCounter] = useState(10);
   const [isMobile, setIsMobile] = useState(false);
+  const [openPostSlug, setOpenPostSlug] = useState<string | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -105,6 +106,41 @@ export default function Desktop({ posts }: DesktopProps) {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Restore state from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const openIds = (params.get("open") ?? "").split(",").filter(Boolean) as WindowId[];
+    const post = params.get("post");
+    if (post) setOpenPostSlug(post);
+    if (openIds.length > 0) {
+      setZCounter((z) => {
+        let next = z;
+        setWindows((prev) =>
+          prev.map((w) => {
+            if (openIds.includes(w.id)) {
+              next += 1;
+              return { ...w, isOpen: true, isFocused: w.id === openIds[openIds.length - 1], zIndex: next };
+            }
+            return w;
+          })
+        );
+        return next;
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Sync URL whenever window state or open post changes
+  useEffect(() => {
+    const openIds = windows
+      .filter((w) => w.isOpen && !w.isMinimized)
+      .map((w) => w.id);
+    const params = new URLSearchParams();
+    if (openIds.length > 0) params.set("open", openIds.join(","));
+    if (openPostSlug) params.set("post", openPostSlug);
+    const qs = params.toString();
+    window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+  }, [windows, openPostSlug]);
 
   const focusWindow = useCallback(
     (id: WindowId) => {
@@ -141,6 +177,7 @@ export default function Desktop({ posts }: DesktopProps) {
   );
 
   const closeWindow = useCallback((id: WindowId) => {
+    if (id === "blog") setOpenPostSlug(null);
     setWindows((prev) =>
       prev.map((w) => (w.id === id ? { ...w, isOpen: false, isFocused: false } : w))
     );
@@ -173,7 +210,7 @@ export default function Desktop({ posts }: DesktopProps) {
   const windowContent: Record<WindowId, React.ReactNode> = {
     about: <AboutWindow />,
     experience: <ExperienceWindow />,
-    blog: <BlogWindow posts={posts} />,
+    blog: <BlogWindow posts={posts} initialPost={openPostSlug ?? undefined} onPostChange={setOpenPostSlug} />,
     contact: <ContactWindow />,
     recycle: <RecycleBinWindow />,
   };

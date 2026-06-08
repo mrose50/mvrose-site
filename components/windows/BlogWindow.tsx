@@ -13,14 +13,23 @@ export interface PostMeta {
 
 interface BlogWindowProps {
   posts: PostMeta[];
+  initialPost?: string;
+  onPostChange?: (slug: string | null) => void;
 }
 
 const years = (posts: PostMeta[]) =>
   [...new Set(posts.map((p) => p.year))].sort().reverse();
 
-export default function BlogWindow({ posts }: BlogWindowProps) {
+export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWindowProps) {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [openPost, setOpenPost] = useState<PostMeta | null>(null);
+  const [openPost, setOpenPost] = useState<PostMeta | null>(
+    () => posts.find((p) => p.slug === initialPost) ?? null
+  );
+
+  const selectPost = (post: PostMeta | null) => {
+    setOpenPost(post);
+    onPostChange?.(post?.slug ?? null);
+  };
 
   const filtered = selectedYear
     ? posts.filter((p) => p.year === selectedYear)
@@ -42,7 +51,7 @@ export default function BlogWindow({ posts }: BlogWindowProps) {
           }}
         >
           <button
-            onClick={() => setOpenPost(null)}
+            onClick={() => selectPost(null)}
             style={{
               background: "linear-gradient(180deg, #f5f4ea 0%, #dbd8c2 100%)",
               border: "1px solid #aca899",
@@ -129,7 +138,7 @@ export default function BlogWindow({ posts }: BlogWindowProps) {
           {filtered.map((post, i) => (
             <div
               key={i}
-              onClick={() => setOpenPost(post)}
+              onClick={() => selectPost(post)}
               style={{
                 background: "white",
                 border: "1px solid #c0bdb0",
