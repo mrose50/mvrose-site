@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Window from "./Window";
 import Taskbar from "./Taskbar";
 import DesktopIcon from "./DesktopIcon";
@@ -19,6 +19,7 @@ export interface WindowState {
   isOpen: boolean;
   isMinimized: boolean;
   isFocused: boolean;
+  zIndex: number;
   position: { x: number; y: number };
   size: { width: number; height: number };
 }
@@ -31,6 +32,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    zIndex: 0,
     position: { x: 80, y: 60 },
     size: { width: 480, height: 340 },
   },
@@ -41,6 +43,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    zIndex: 0,
     position: { x: 140, y: 100 },
     size: { width: 520, height: 420 },
   },
@@ -51,6 +54,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    zIndex: 0,
     position: { x: 200, y: 80 },
     size: { width: 500, height: 460 },
   },
@@ -61,6 +65,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    zIndex: 0,
     position: { x: 300, y: 140 },
     size: { width: 360, height: 280 },
   },
@@ -71,6 +76,7 @@ const defaultWindows: WindowState[] = [
     isOpen: false,
     isMinimized: false,
     isFocused: false,
+    zIndex: 0,
     position: { x: 400, y: 120 },
     size: { width: 420, height: 300 },
   },
@@ -91,31 +97,47 @@ interface DesktopProps {
 export default function Desktop({ posts }: DesktopProps) {
   const [windows, setWindows] = useState<WindowState[]>(defaultWindows);
   const [zCounter, setZCounter] = useState(10);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const focusWindow = useCallback(
     (id: WindowId) => {
-      const z = zCounter + 1;
-      setZCounter(z);
-      setWindows((prev) =>
-        prev.map((w) => ({ ...w, isFocused: w.id === id }))
-      );
+      setZCounter((z) => {
+        const next = z + 1;
+        setWindows((prev) =>
+          prev.map((w) => ({
+            ...w,
+            isFocused: w.id === id,
+            zIndex: w.id === id ? next : w.zIndex,
+          }))
+        );
+        return next;
+      });
     },
-    [zCounter]
+    []
   );
 
   const openWindow = useCallback(
     (id: WindowId) => {
-      const z = zCounter + 1;
-      setZCounter(z);
-      setWindows((prev) =>
-        prev.map((w) =>
-          w.id === id
-            ? { ...w, isOpen: true, isMinimized: false, isFocused: true }
-            : { ...w, isFocused: false }
-        )
-      );
+      setZCounter((z) => {
+        const next = z + 1;
+        setWindows((prev) =>
+          prev.map((w) =>
+            w.id === id
+              ? { ...w, isOpen: true, isMinimized: false, isFocused: true, zIndex: next }
+              : { ...w, isFocused: false }
+          )
+        );
+        return next;
+      });
     },
-    [zCounter]
+    []
   );
 
   const closeWindow = useCallback((id: WindowId) => {
@@ -134,6 +156,15 @@ export default function Desktop({ posts }: DesktopProps) {
     (id: WindowId, position: { x: number; y: number }) => {
       setWindows((prev) =>
         prev.map((w) => (w.id === id ? { ...w, position } : w))
+      );
+    },
+    []
+  );
+
+  const updateSize = useCallback(
+    (id: WindowId, size: { width: number; height: number }) => {
+      setWindows((prev) =>
+        prev.map((w) => (w.id === id ? { ...w, size } : w))
       );
     },
     []
@@ -158,12 +189,23 @@ export default function Desktop({ posts }: DesktopProps) {
     >
 
       {/* Desktop icons */}
-      <div className="absolute top-4 left-4 flex flex-col gap-4">
+      <div
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          right: isMobile ? 16 : "auto",
+          display: "grid",
+          gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "1fr",
+          gap: isMobile ? 8 : 16,
+        }}
+      >
         {desktopIcons.map((icon) => (
           <DesktopIcon
             key={icon.id}
             label={icon.label}
             icon={icon.icon}
+            isMobile={isMobile}
             onDoubleClick={() => openWindow(icon.id)}
           />
         ))}
@@ -179,11 +221,13 @@ export default function Desktop({ posts }: DesktopProps) {
             position={win.position}
             size={win.size}
             isFocused={win.isFocused}
-            zIndex={10 + i + (win.isFocused ? 100 : 0)}
+            isMobile={isMobile}
+            zIndex={win.zIndex}
             onFocus={() => focusWindow(win.id)}
             onClose={() => closeWindow(win.id)}
             onMinimize={() => minimizeWindow(win.id)}
             onMove={(pos) => updatePosition(win.id, pos)}
+            onResize={(size) => updateSize(win.id, size)}
           >
             {windowContent[win.id]}
           </Window>
@@ -193,6 +237,7 @@ export default function Desktop({ posts }: DesktopProps) {
       {/* Taskbar */}
       <Taskbar
         windows={windows}
+        isMobile={isMobile}
         onWindowClick={(id) => {
           const win = windows.find((w) => w.id === id);
           if (!win) return;

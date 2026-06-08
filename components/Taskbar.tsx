@@ -6,15 +6,22 @@ import { WindowState } from "./Desktop";
 interface TaskbarProps {
   windows: WindowState[];
   onWindowClick: (id: WindowState["id"]) => void;
+  isMobile?: boolean;
 }
 
-export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
+export default function Taskbar({ windows, onWindowClick, isMobile }: TaskbarProps) {
   const [time, setTime] = useState("");
+  const [date, setDate] = useState("");
+  const [showDate, setShowDate] = useState(false);
 
   useEffect(() => {
     const update = () => {
+      const now = new Date();
+      setDate(
+        now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })
+      );
       setTime(
-        new Date().toLocaleTimeString("en-US", {
+        now.toLocaleTimeString("en-US", {
           hour: "numeric",
           minute: "2-digit",
         })
@@ -34,7 +41,7 @@ export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
         bottom: 0,
         left: 0,
         right: 0,
-        height: 40,
+        height: isMobile ? 48 : 40,
         background: "linear-gradient(180deg, #245edc 0%, #1a4fbe 50%, #1f5bb5 100%)",
         borderTop: "2px solid #4b9cf5",
         display: "flex",
@@ -46,8 +53,8 @@ export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
       {/* Start button */}
       <button
         style={{
-          height: 36,
-          padding: "0 12px 0 8px",
+          height: isMobile ? 44 : 36,
+          padding: isMobile ? "0 14px 0 10px" : "0 12px 0 8px",
           background: "linear-gradient(180deg, #60a830 0%, #3e8c1c 50%, #348a18 100%)",
           border: "1px solid #1a5c0a",
           borderRadius: "0 12px 12px 0",
@@ -135,17 +142,46 @@ export default function Taskbar({ windows, onWindowClick }: TaskbarProps) {
         }}
       >
         <span style={{ fontSize: 14 }}>🔊</span>
-        <span
-          style={{
-            color: "white",
-            fontSize: 11,
-            fontFamily: "Tahoma, sans-serif",
-            minWidth: 50,
-            textAlign: "center",
-          }}
+        <div
+          onMouseEnter={() => setShowDate(true)}
+          onMouseLeave={() => setShowDate(false)}
+          style={{ position: "relative", textAlign: "center" }}
         >
-          {time}
-        </span>
+          <span
+            style={{
+              color: "white",
+              fontSize: 11,
+              fontFamily: "Tahoma, sans-serif",
+              minWidth: 50,
+              display: "block",
+              cursor: "default",
+            }}
+          >
+            {time}
+          </span>
+          {showDate && (
+            <div
+              style={{
+                position: "fixed",
+                bottom: 52,
+                right: 8,
+                background: "linear-gradient(180deg, #fffde1 0%, #f5f0c8 100%)",
+                border: "1px solid #c8a800",
+                borderRadius: 3,
+                padding: "4px 10px",
+                whiteSpace: "nowrap",
+                fontSize: 11,
+                fontFamily: "Tahoma, sans-serif",
+                color: "#222",
+                boxShadow: "1px 2px 6px rgba(0,0,0,0.3)",
+                pointerEvents: "none",
+                zIndex: 99999,
+              }}
+            >
+              {date}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

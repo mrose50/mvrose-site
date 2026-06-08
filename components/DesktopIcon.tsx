@@ -6,15 +6,16 @@ interface DesktopIconProps {
   label: string;
   icon: string;
   onDoubleClick: () => void;
+  isMobile?: boolean;
 }
 
-export default function DesktopIcon({ label, icon, onDoubleClick }: DesktopIconProps) {
+export default function DesktopIcon({ label, icon, onDoubleClick, isMobile }: DesktopIconProps) {
   const [selected, setSelected] = useState(false);
 
   return (
     <div
-      onDoubleClick={onDoubleClick}
-      onClick={() => setSelected(true)}
+      onDoubleClick={isMobile ? undefined : onDoubleClick}
+      onClick={isMobile ? onDoubleClick : () => setSelected(true)}
       onBlur={() => setSelected(false)}
       tabIndex={0}
       style={{
@@ -22,8 +23,8 @@ export default function DesktopIcon({ label, icon, onDoubleClick }: DesktopIconP
         flexDirection: "column",
         alignItems: "center",
         gap: 4,
-        width: 72,
-        padding: 4,
+        width: isMobile ? 80 : 72,
+        padding: isMobile ? 8 : 4,
         borderRadius: 2,
         cursor: "default",
         outline: "none",
@@ -32,9 +33,9 @@ export default function DesktopIcon({ label, icon, onDoubleClick }: DesktopIconP
       }}
     >
       {icon.startsWith("/") ? (
-        <img src={icon} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
+        <img src={icon} alt="" style={{ width: isMobile ? 56 : 48, height: isMobile ? 56 : 48, objectFit: "contain" }} />
       ) : (
-        <span style={{ fontSize: 32, lineHeight: 1 }}>{icon}</span>
+        <span style={{ fontSize: isMobile ? 40 : 32, lineHeight: 1 }}>{icon}</span>
       )}
       <span
         style={{
