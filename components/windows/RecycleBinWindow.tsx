@@ -89,7 +89,7 @@ export default function RecycleBinWindow() {
         }}
       >
         <span style={{ color: "#555" }}>Address:</span>
-        <span>🗑️ Recycle Bin</span>
+        <span><img src="/icons/recycle.png" alt="" style={{width:16,height:16,objectFit:"contain",verticalAlign:"middle",marginRight:4}}/>Recycle Bin</span>
       </div>
 
       {/* File list */}

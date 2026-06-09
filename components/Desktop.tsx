@@ -80,7 +80,7 @@ const defaultWindows: WindowState[] = [
   {
     id: "recycle",
     title: "Recycle Bin",
-    icon: "🗑️",
+    icon: "/icons/recycle.png",
     isOpen: false,
     isMinimized: false,
     isFocused: false,
@@ -96,7 +96,7 @@ const desktopIcons: { id: WindowId; label: string; icon: string }[] = [
   { id: "experience", label: "Work Experience", icon: "/icons/experience.png" },
   { id: "blog", label: "Blog", icon: "/icons/blog.png" },
   { id: "contact", label: "Contact", icon: "/icons/contact.png" },
-  { id: "recycle", label: "Recycle Bin", icon: "🗑️" },
+  { id: "recycle", label: "Recycle Bin", icon: "/icons/recycle.png" },
 ];
 
 interface DesktopProps {

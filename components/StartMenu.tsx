@@ -22,7 +22,7 @@ const appItems: AppItem[] = [
   { id: "about", label: "About Mike", icon: "/icons/about.png", desc: "Who I am" },
   { id: "experience", label: "Work Experience", icon: "/icons/experience.png", desc: "Career history" },
   { id: "contact", label: "Contact", icon: "/icons/contact.png", desc: "Get in touch" },
-  { id: "recycle", label: "Recycle Bin", icon: "🗑️", desc: "Trash" },
+  { id: "recycle", label: "Recycle Bin", icon: "/icons/recycle.png", desc: "Trash" },
 ];
 
 const rightItems = [
