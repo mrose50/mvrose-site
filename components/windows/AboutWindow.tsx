@@ -34,17 +34,17 @@ export default function AboutWindow() {
           👤
         </div>
         <div>
-          <div style={{ fontSize: 15, fontWeight: "bold", color: "#003399" }}>
+          <div style={{ fontSize: "1.36em", fontWeight: "bold", color: "#003399" }}>
             {profile.name}
           </div>
-          <div style={{ fontSize: 11, color: "#444", marginTop: 2 }}>
+          <div style={{ fontSize: "1em", color: "#444", marginTop: 2 }}>
             {profile.title}
           </div>
         </div>
       </div>
 
       <Section title="About">
-        <p style={{ margin: 0, lineHeight: 1.6, color: "#333" }}>{profile.summary}</p>
+        <p style={{ margin: 0, lineHeight: 1.6, color: "#333", fontSize: "1em" }}>{profile.summary}</p>
       </Section>
 
       <Section title="Education">
@@ -63,9 +63,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
         style={{
           background: "linear-gradient(180deg, #4b9cf5 0%, #0058ee 100%)",
           color: "white",
-          fontSize: 11,
+          fontSize: "1em",
           fontWeight: "bold",
-          padding: "2px 8px",
+          padding: "3px 8px",
           marginBottom: 6,
           borderRadius: 2,
         }}
@@ -79,8 +79,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: "flex", gap: 8, marginBottom: 3, fontSize: 11 }}>
-      <span style={{ color: "#555", width: 60, flexShrink: 0 }}>{label}:</span>
+    <div style={{ display: "flex", gap: 8, marginBottom: 4, fontSize: "1em" }}>
+      <span style={{ color: "#555", width: "5em", flexShrink: 0 }}>{label}:</span>
       <span style={{ color: "#111" }}>{value}</span>
     </div>
   );

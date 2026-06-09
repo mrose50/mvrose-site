@@ -3,7 +3,7 @@ import { experience } from "@/lib/data";
 export default function ExperienceWindow() {
   return (
     <div style={{ padding: 16, fontFamily: "Tahoma, sans-serif" }}>
-      <div style={{ marginBottom: 10, fontSize: 11, color: "#555" }}>
+      <div style={{ marginBottom: 10, fontSize: "1em", color: "#555" }}>
         11 years of professional experience in security engineering.
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -29,16 +29,16 @@ export default function ExperienceWindow() {
                 gap: 8,
               }}
             >
-              <span style={{ fontSize: 18 }}>💼</span>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>💼</span>
               <div>
-                <div style={{ fontWeight: "bold", fontSize: 12, color: "#003399" }}>
+                <div style={{ fontWeight: "bold", fontSize: "1.09em", color: "#003399" }}>
                   {job.title}
                 </div>
-                <div style={{ fontSize: 11, color: "#555" }}>{job.company}</div>
+                <div style={{ fontSize: "1em", color: "#555" }}>{job.company}</div>
               </div>
             </div>
             {/* Job body */}
-            <div style={{ padding: "8px 10px", fontSize: 11, color: "#333", lineHeight: 1.5 }}>
+            <div style={{ padding: "8px 10px", fontSize: "1em", color: "#333", lineHeight: 1.55 }}>
               {job.description}
             </div>
           </div>

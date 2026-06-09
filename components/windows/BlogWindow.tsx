@@ -15,12 +15,13 @@ interface BlogWindowProps {
   posts: PostMeta[];
   initialPost?: string;
   onPostChange?: (slug: string | null) => void;
+  isMobile?: boolean;
 }
 
 const years = (posts: PostMeta[]) =>
   [...new Set(posts.map((p) => p.year))].sort().reverse();
 
-export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWindowProps) {
+export default function BlogWindow({ posts, initialPost, onPostChange, isMobile }: BlogWindowProps) {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [openPost, setOpenPost] = useState<PostMeta | null>(
     () => posts.find((p) => p.slug === initialPost) ?? null
@@ -43,7 +44,7 @@ export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWin
           style={{
             background: "linear-gradient(180deg, #dfe8f5 0%, #c8d8ee 100%)",
             borderBottom: "1px solid #a8bcd0",
-            padding: "5px 10px",
+            padding: isMobile ? "8px 12px" : "5px 10px",
             display: "flex",
             alignItems: "center",
             gap: 8,
@@ -56,32 +57,34 @@ export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWin
               background: "linear-gradient(180deg, #f5f4ea 0%, #dbd8c2 100%)",
               border: "1px solid #aca899",
               borderRadius: 3,
-              padding: "2px 10px",
-              fontSize: 11,
+              padding: isMobile ? "6px 14px" : "2px 10px",
+              fontSize: isMobile ? 14 : 11,
               fontFamily: "Tahoma, sans-serif",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: 4,
+              flexShrink: 0,
             }}
           >
             ← Back
           </button>
-          <span style={{ fontSize: 12, fontWeight: "bold", color: "#003399" }}>
+          <span style={{ fontSize: isMobile ? 13 : 12, fontWeight: "bold", color: "#003399", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {openPost.title}
           </span>
         </div>
 
         {/* Post content */}
         <div
-          style={{ flex: 1, overflow: "auto", padding: "12px 16px" }}
+          style={{ flex: 1, overflow: "auto", padding: isMobile ? "14px 16px" : "12px 16px" }}
           dangerouslySetInnerHTML={{
             __html: marked(openPost.content) as string,
           }}
-          className="prose-xp"
+          className={isMobile ? "prose-xp prose-xp-mobile" : "prose-xp"}
         />
 
         <style>{`
+          .prose-xp h1 { font-size: 14px; font-weight: bold; color: #003399; margin: 14px 0 6px; border-bottom: 1px solid #c0bdb0; padding-bottom: 2px; }
           .prose-xp h2 { font-size: 13px; font-weight: bold; color: #003399; margin: 12px 0 4px; border-bottom: 1px solid #c0bdb0; padding-bottom: 2px; }
           .prose-xp h3 { font-size: 12px; font-weight: bold; color: #333; margin: 10px 0 3px; }
           .prose-xp p { font-size: 11px; color: #222; margin: 0 0 8px; line-height: 1.6; }
@@ -93,11 +96,82 @@ export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWin
           .prose-xp blockquote { border-left: 3px solid #4b9cf5; padding-left: 8px; margin: 0 0 8px; color: #555; font-style: italic; }
           .prose-xp strong { font-weight: bold; color: #111; }
           .prose-xp a { color: #0058ee; }
+
+          /* Mobile-specific prose sizes */
+          .prose-xp-mobile h1 { font-size: 18px; margin: 16px 0 8px; }
+          .prose-xp-mobile h2 { font-size: 16px; margin: 14px 0 6px; }
+          .prose-xp-mobile h3 { font-size: 15px; margin: 12px 0 4px; }
+          .prose-xp-mobile p { font-size: 14px; margin: 0 0 10px; line-height: 1.65; }
+          .prose-xp-mobile ul, .prose-xp-mobile ol { font-size: 14px; margin: 0 0 10px; line-height: 1.65; }
+          .prose-xp-mobile code { font-size: 12px; }
+          .prose-xp-mobile pre code { font-size: 12px; }
         `}</style>
       </div>
     );
   }
 
+  // Mobile: horizontal year filter tabs at top instead of sidebar
+  if (isMobile) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "100%", fontFamily: "Tahoma, sans-serif" }}>
+        {/* Horizontal year filter */}
+        <div
+          style={{
+            background: "linear-gradient(180deg, #dfe8f5 0%, #c4d4e8 100%)",
+            borderBottom: "1px solid #a8bcd0",
+            padding: "8px 10px",
+            display: "flex",
+            gap: 6,
+            overflowX: "auto",
+            flexShrink: 0,
+          }}
+        >
+          <YearTab label="All" active={selectedYear === null} onClick={() => setSelectedYear(null)} />
+          {years(posts).map((y) => (
+            <YearTab key={y} label={y} active={selectedYear === y} onClick={() => setSelectedYear(y)} />
+          ))}
+        </div>
+
+        {/* Post list */}
+        <div style={{ flex: 1, overflow: "auto", padding: "10px 10px" }}>
+          <div style={{ marginBottom: 8, fontSize: 12, color: "#555" }}>
+            {filtered.length} post{filtered.length !== 1 ? "s" : ""}
+            {selectedYear ? ` in ${selectedYear}` : " total"}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {filtered.map((post, i) => (
+              <div
+                key={i}
+                onClick={() => selectPost(post)}
+                style={{
+                  background: "white",
+                  border: "1px solid #c0bdb0",
+                  borderRadius: 4,
+                  padding: "10px 12px",
+                  cursor: "pointer",
+                  boxShadow: "1px 1px 2px rgba(0,0,0,0.08)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <span style={{ fontSize: 18, marginTop: 1, flexShrink: 0 }}>📄</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: "bold", fontSize: 14, color: "#003399", marginBottom: 3, lineHeight: 1.3 }}>
+                      {post.title}
+                    </div>
+                    <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{post.year}</div>
+                    <div style={{ fontSize: 13, color: "#555", lineHeight: 1.4 }}>{post.description}</div>
+                  </div>
+                  <span style={{ fontSize: 14, color: "#aaa", marginTop: 2, flexShrink: 0 }}>▶</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop: sidebar layout
   return (
     <div style={{ display: "flex", height: "100%", fontFamily: "Tahoma, sans-serif" }}>
       {/* Sidebar */}
@@ -166,6 +240,29 @@ export default function BlogWindow({ posts, initialPost, onPostChange }: BlogWin
         </div>
       </div>
     </div>
+  );
+}
+
+function YearTab({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "5px 14px",
+        background: active ? "linear-gradient(180deg, #4b9cf5 0%, #0058ee 100%)" : "white",
+        color: active ? "white" : "#333",
+        border: active ? "1px solid #0058ee" : "1px solid #c0bdb0",
+        borderRadius: 12,
+        fontSize: 13,
+        fontFamily: "Tahoma, sans-serif",
+        cursor: "pointer",
+        fontWeight: active ? "bold" : "normal",
+        flexShrink: 0,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+    </button>
   );
 }
 

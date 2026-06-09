@@ -10,7 +10,7 @@ export default function ContactWindow() {
           borderRadius: 4,
           padding: "10px 14px",
           marginBottom: 14,
-          fontSize: 11,
+          fontSize: "1em",
           color: "#333",
           lineHeight: 1.5,
         }}
@@ -66,9 +66,9 @@ function ContactRow({
         boxShadow: "1px 1px 2px rgba(0,0,0,0.08)",
       }}
     >
-      <span style={{ fontSize: 18, flexShrink: 0 }}>{icon}</span>
+      <span style={{ fontSize: 20, flexShrink: 0 }}>{icon}</span>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 0.5 }}>
+        <div style={{ fontSize: "0.9em", color: "#888", textTransform: "uppercase", letterSpacing: 0.5 }}>
           {label}
         </div>
         <a
@@ -77,7 +77,7 @@ function ContactRow({
           rel="noopener noreferrer"
           style={{
             color: "#0058ee",
-            fontSize: 12,
+            fontSize: "1.09em",
             textDecoration: "none",
             fontWeight: "bold",
           }}
@@ -87,7 +87,7 @@ function ContactRow({
           {display}
         </a>
       </div>
-      <span style={{ fontSize: 10, color: "#aaa" }}>↗</span>
+      <span style={{ fontSize: "0.9em", color: "#aaa" }}>↗</span>
     </div>
   );
 }

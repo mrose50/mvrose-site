@@ -31,6 +31,12 @@ html, body {
   font-size: 11px;
 }
 
+@media (max-width: 767px) {
+  html, body {
+    font-size: 14px;
+  }
+}
+
 /* XP Button styles */
 .xp-btn {
   background: linear-gradient(to bottom, #f5f4ea 0%, #dbd8c2 100%);
@@ -56,23 +62,40 @@ html, body {
   border-bottom-color: var(--xp-btn-shadow);
 }
 
-/* XP scrollbar */
-::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
+/* XP scrollbar — desktop only */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #d4d0c8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #c4c0b4, #a8a49a);
+    border: 1px solid #888;
+  }
+  ::-webkit-scrollbar-button {
+    background: #d4d0c8;
+    border: 1px solid #888;
+    display: block;
+    height: 16px;
+  }
 }
-::-webkit-scrollbar-track {
-  background: #d4d0c8;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to right, #c4c0b4, #a8a49a);
-  border: 1px solid #888;
-}
-::-webkit-scrollbar-button {
-  background: #d4d0c8;
-  border: 1px solid #888;
-  display: block;
-  height: 16px;
+
+/* Thin scrollbars on mobile */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 2px;
+  }
 }
 
 /* XP selection */

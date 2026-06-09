@@ -250,7 +250,7 @@ export default function Desktop({ posts }: DesktopProps) {
   const windowContent: Record<WindowId, React.ReactNode> = {
     about: <AboutWindow />,
     experience: <ExperienceWindow />,
-    blog: <BlogWindow posts={posts} initialPost={openPostSlug ?? undefined} onPostChange={setOpenPostSlug} />,
+    blog: <BlogWindow posts={posts} initialPost={openPostSlug ?? undefined} onPostChange={setOpenPostSlug} isMobile={isMobile} />,
     contact: <ContactWindow />,
     recycle: <RecycleBinWindow />,
   };
