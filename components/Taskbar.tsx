@@ -7,9 +7,11 @@ interface TaskbarProps {
   windows: WindowState[];
   onWindowClick: (id: WindowState["id"]) => void;
   isMobile?: boolean;
+  startMenuOpen?: boolean;
+  onStartClick?: () => void;
 }
 
-export default function Taskbar({ windows, onWindowClick, isMobile }: TaskbarProps) {
+export default function Taskbar({ windows, onWindowClick, isMobile, startMenuOpen, onStartClick }: TaskbarProps) {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [showDate, setShowDate] = useState(false);
@@ -52,10 +54,13 @@ export default function Taskbar({ windows, onWindowClick, isMobile }: TaskbarPro
     >
       {/* Start button */}
       <button
+        onClick={(e) => { e.stopPropagation(); onStartClick?.(); }}
         style={{
           height: isMobile ? 44 : 36,
           padding: isMobile ? "0 14px 0 10px" : "0 12px 0 8px",
-          background: "linear-gradient(180deg, #60a830 0%, #3e8c1c 50%, #348a18 100%)",
+          background: startMenuOpen
+            ? "linear-gradient(180deg, #2a6010 0%, #1e5010 50%, #1a4c0e 100%)"
+            : "linear-gradient(180deg, #60a830 0%, #3e8c1c 50%, #348a18 100%)",
           border: "1px solid #1a5c0a",
           borderRadius: "0 12px 12px 0",
           color: "white",
@@ -66,7 +71,9 @@ export default function Taskbar({ windows, onWindowClick, isMobile }: TaskbarPro
           display: "flex",
           alignItems: "center",
           gap: 6,
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), 2px 0 4px rgba(0,0,0,0.3)",
+          boxShadow: startMenuOpen
+            ? "inset 0 2px 3px rgba(0,0,0,0.4)"
+            : "inset 0 1px 0 rgba(255,255,255,0.3), 2px 0 4px rgba(0,0,0,0.3)",
           marginLeft: 2,
           flexShrink: 0,
         }}

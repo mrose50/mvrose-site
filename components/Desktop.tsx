@@ -10,6 +10,7 @@ import BlogWindow, { PostMeta } from "./windows/BlogWindow";
 import ContactWindow from "./windows/ContactWindow";
 import RecycleBinWindow from "./windows/RecycleBinWindow";
 import BootScreen from "./BootScreen";
+import StartMenu from "./StartMenu";
 
 export type WindowId = "about" | "experience" | "blog" | "contact" | "recycle";
 
@@ -109,6 +110,7 @@ export default function Desktop({ posts }: DesktopProps) {
   const [openPostSlug, setOpenPostSlug] = useState<string | null>(null);
   const [booting, setBooting] = useState(true);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const [startMenuOpen, setStartMenuOpen] = useState(false);
 
   useEffect(() => {
     if (sessionStorage.getItem("booted")) {
@@ -267,7 +269,7 @@ export default function Desktop({ posts }: DesktopProps) {
         e.preventDefault();
         setContextMenu({ x: e.clientX, y: e.clientY });
       }}
-      onClick={() => setContextMenu(null)}
+      onClick={() => { setContextMenu(null); setStartMenuOpen(false); }}
     >
 
       {/* Desktop icons */}
@@ -318,10 +320,21 @@ export default function Desktop({ posts }: DesktopProps) {
         ) : null
       )}
 
+      {/* Start Menu */}
+      {startMenuOpen && (
+        <StartMenu
+          onClose={() => setStartMenuOpen(false)}
+          onOpenWindow={openWindow}
+          isMobile={isMobile}
+        />
+      )}
+
       {/* Taskbar */}
       <Taskbar
         windows={windows}
         isMobile={isMobile}
+        startMenuOpen={startMenuOpen}
+        onStartClick={() => setStartMenuOpen((v) => !v)}
         onWindowClick={(id) => {
           const win = windows.find((w) => w.id === id);
           if (!win) return;
